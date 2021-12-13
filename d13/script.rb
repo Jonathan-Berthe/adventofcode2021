@@ -70,7 +70,7 @@ class Paper
 
 end
 
-file = File.open("dummy.txt")
+file = File.open("input.txt")
 all_input = file.readlines.map { |line| line.gsub("\n", '') }
 input = all_input[0..all_input.find_index("") - 1].map { |line| line.split(",").map(&:to_i) }
 folds = all_input[all_input.find_index("") + 1..all_input.length - 1].map { |line| line.gsub("fold along ", "").split("=") }
