@@ -1,5 +1,4 @@
 # I implement pseudo code for dijkstra algo found here: https://fr.wikipedia.org/wiki/Algorithme_de_Dijkstra
-
 class Graph
   def initialize(dist_matrix, sdeb, sfin)
     @dist_matrix = dist_matrix
@@ -112,11 +111,8 @@ p graph.run_dijkstra
 m = array.length
 n = array[0].length
 array2 = Array.new(5 * m) { Array.new(5 * n) } # array2 will be the complete map
-tmp = 0
 [*0..4].map do |k1|
-  tmp += k1
   [*0..4].map do |k2|
-    tmp += k2
     array.each_with_index do |line, i|
       line.each_with_index do |e, j|
         array2[k1 * m + i][k2 * n +j] = (e + k2 + k1 - 1) % 9 + 1
