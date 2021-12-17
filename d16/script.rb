@@ -104,11 +104,6 @@ class Packet
     @length_of_packet = index
     bit_to_int(num)
   end
-
-  def round_to_4_mutliple(num)
-    num + 4 - num % 4
-  end
-
 end
 
 
