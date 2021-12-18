@@ -12,7 +12,6 @@ y_target_min = target[1][0]
 # => because of symetry again, v_y(t_0) = - v_0y
 # => v_0y can't be > to |y_min| because if so we'll have y(t_0 + 1) = y(t_0) - v(t_0) = 0 - v_0y < y_min and so we are outside of the target
 # ==> So the max v_oy (which lead to the max y height) is |y_min| and there, because t = v_0y = t_min we'll have the y_max bellow !
-
 y_max = ((y_target_min**2) - y_target_min.abs) / 2
 p y_max
 
