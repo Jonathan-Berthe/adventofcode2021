@@ -1,0 +1,116 @@
+def remove3(interval_to_remove)
+    intervals_to_add = []
+    intervals_to_delete = []
+    @array_intervals.each do |interval|
+      intersection = intersection_3d(interval, interval_to_remove)
+      next if intersection.nil?
+
+      interval1_x, interval1_y, interval1_z = interval
+      interval2_x, interval2_y, interval2_z = interval_to_remove
+
+      points = []
+
+      [*interval1_x[0]..interval1_x[1]].each do |x|
+        [*interval1_y[0]..interval1_y[1]].each do |y|
+          [*interval1_z[0]..interval1_z[1]].each do |z|
+            next if in_interval_1d?(x, interval2_x) && in_interval_1d?(y, interval2_y) && in_interval_1d?(z, interval2_z)
+              # We are in the interval we want to remove
+            p [[x, x], [y, y], [z, z]]
+            points.push([[x, x], [y, y], [z, z]])
+            #points = simplify(points)
+          end
+        end
+      end
+      intervals_to_delete.push(interval)
+
+      points = simplify(points)
+      intervals_to_add.push(*points)
+    end
+    intervals_to_delete.each do |e|
+      @array_intervals.delete(e)
+    end
+
+    #intervals_to_add = simplify(intervals_to_add)
+    intervals_to_add.each do |e|
+      @array_intervals.push(e)
+    end
+  end
+
+
+
+  def remove(interval_to_remove)
+    intervals_to_add = []
+    intervals_to_delete = []
+    @array_intervals.each do |interval|
+      # Find intersection
+      intersection = intersection_3d(interval, interval_to_remove)
+      next if intersection.nil?
+
+      interval1_x, interval1_y, interval1_z = interval
+      interval2_x, interval2_y, interval2_z = intersection
+      [*interval1_x, *interval2_x].each_with_index do |x1, ix|
+        [*interval1_x, *interval2_x].each_with_index do |x2, jx|
+          next if x1 > x2 || ix == jx
+
+          x_min, x_max = x1, x2
+          [*interval1_y, *interval2_y].each_with_index do |y1, iy|
+            [*interval1_y, *interval2_y].each_with_index do |y2, jy|
+              next if y1 > y2 || iy == jy
+
+              y_min, y_max = y1, y2
+              [*interval1_z, *interval2_z].each_with_index do |z1, iz|
+                [*interval1_z, *interval2_z].each_with_index do |z2, jz|
+                  next if z1 > z2 || iz == jz
+
+                  z_min, z_max = z1, z2
+                  new_interval = [[x_min, x_max], [y_min, y_max], [z_min, z_max]]
+                  next if intersection_3d(new_interval, intersection) == intersection
+                  p new_interval
+                  intervals_to_add.push(new_interval)
+                end
+              end
+            end
+          end
+        end
+      end
+      intervals_to_delete.push(interval)
+      p "----"
+      p interval
+      p intersection
+      p intervals_to_add
+      intervals_to_add = simplify(intervals_to_add)
+      p intervals_to_add
+      p "----"
+    end
+    intervals_to_delete.each do |e|
+      @array_intervals.delete(e)
+    end
+
+    intervals_to_add = simplify(intervals_to_add)
+    intervals_to_add.each do |e|
+      @array_intervals.push(e)
+    end
+  end
+
+
+
+  hyp_set.each_with_index do |index_interval1, k|
+            break
+            hyp_set.each_with_index do |index_interval2, l|
+              #next if k >= l
+              interval1 = @array_intervals[index_interval1]
+              #p interval1
+              interval2 = @array_intervals[index_interval2]
+              #p interval2
+              intersection = intersection_3d(interval1, interval2)
+              #p intersection
+
+              #p "-------"
+              if intersection.nil?
+                check = true
+                #break
+              end
+            end
+            #break if check
+          end
+          #p check if !check
